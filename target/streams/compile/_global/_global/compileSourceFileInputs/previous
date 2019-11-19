@@ -1,0 +1,1 @@
+["sbt.Task[scala.collection.immutable.Map[java.lang.String, scala.collection.Seq[scala.Tuple2[java.nio.file.Path, sbt.nio.FileStamp]]]]",{"2.11.12":{"hashes":[["/home/vitani/PSmaintry/src/main/scala/PsTry.scala","9067676294d77d0b235b29f884368a0999278a2f"]],"lastModifiedTimes":[]}}]
