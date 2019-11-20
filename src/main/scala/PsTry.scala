@@ -39,23 +39,20 @@ object PsTry {
     * @param   model   the name of the file containing the model
     * @param   output  the name of the output file
     */
-    def OnlineLearnAndEvaluate(input: String, model: String, output: String) {
+    def OnlineEvaluate(input: String, model: String, output: String) {
       val ratings = ImplicitDataToRatingParser.parse(senv, folder + input, ",", 1, 2, 0, startTimestamp)
-      val parsedModel = VectorModelFileParser.parse(senv, folder + model)
+      val parsedModel = VectorModelFileParser.parse(senv, folder + model, numFactors = 10)
 
-      val topK = psOnlineLearnerAndGeneratorWithModelLoad(parsedModel)(
-        ratings,
-        learningRate = 0.35,
-        negativeSampleRate = 4)
+      val topK = psTopKGenerator(ratings, parsedModel)
 
-      nDCGSink.nDCGPeriodsToCsv(topK, folder + output, dayInSec)
+      nDCGSink.nDCGPeriodsToCsv(topK, folder + output, dayInSec, false)
 
-      senv execute s"Online evaluation of model $model with learning"
+      senv execute s"Online evaluation of model $model without learning"
     }
 
     // read the model and evaluate it as-is
     val i = 10
-    OnlineLearnAndEvaluate(inputPath+i, modelPath+i, outputPathBatchOnline+i)
+    OnlineEvaluate(inputPath+i, modelPath+i, outputPathBatch+i)
   }
 }
 
